@@ -1,0 +1,92 @@
+<h1>Locations</h1>
+
+<p>Locations component fetches data from HRDW.</p>
+
+<p *ngIf="!locations"><em>Loading...</em></p>
+
+<table class='table' *ngIf="locations">
+    <thead>
+        <tr>
+            <th></th>
+            <th>locationID</th>
+            <th>erpEmployerID</th>
+            <th>name</th>
+            <th>address1</th>
+            <th>address2</th>
+            <th>city</th>
+            <th>state</th>
+            <th>zip</th>
+            <th>country</th>
+            <th>active</th>
+            <th>adCountryCode</th>
+            <th>adCountryAbrv</th>
+        </tr>
+    </thead>
+    <tbody>
+        <!--http://www.dotnetcurry.com/angularjs/1380/angular-4-grid-crud-->
+        <tr *ngFor="let location of locations; let i = index">
+            <!-- ngIf="editMode; then #editTempl else #displayTempl">-->
+            <!--<ng-template #displayTempl></ng-template>-->
+            <td *ngIf="!editMode">
+                <button (click)="editLocation(location)">Edit</button>
+            </td>
+            <td *ngIf="editMode">
+                <button (click)="updateLocation(location)">Save</button>
+                <button (click)="cancel()">Cancel</button>
+            </td>
+            <td *ngIf="!editMode">
+                {{ location.locationID }}
+            </td>
+            <td *ngIf="editMode">
+                <select *ngIf="editMode" class="form-control" [(ngModel)]="location.locationID">
+                    <option *ngFor="let siLoc of selfInfoLocations" ngValue="{{siLoc.locationID}}">{{siLoc.locationID}} </option>
+                </select>
+            </td>
+            <td>{{ location.erpEmployerID }}</td>
+            <td>{{ location.name }}</td>
+            <td>{{ location.address1 }}</td>
+            <td>{{ location.address2 }}</td>
+            <td>{{ location.city }}</td>
+            <td>{{ location.state }}</td>
+            <td>{{ location.zip }}</td>
+            <td>{{ location.country }}</td>
+            <td>{{ location.active }}</td>
+            <td>{{ location.adCountryCode }}</td>
+            <td>{{ location.adCountryAbrv }}</td>
+
+
+            <!--<ng-template #editTempl let-i="index">
+            <td>
+                <button (click)="saveLocation(i)">Save</button>
+                <button (click)="reset()">Cancel</button>
+            </td>
+            <td>
+                <select class="form-control" [(ngModel)]="location.locationID">
+                    <option *ngFor="let siLoc of selfInfoLocations" ngValue="location.locationID">{{siLoc.locationID}} </option>
+                </select>
+            </td>
+            <td>
+                <select class="form-control" [(ngModel)]="location.erpEmployerID">
+                    <option *ngFor="let siEmp of selfInfoEmployers">{{siEmp.employerID}} </option>
+                </select>
+            </td>
+            <td>{{ location.name }}</td>
+            <td>{{ location.address1 }}</td>
+            <td>{{ location.address2 }}</td>
+            <td>{{ location.city }}</td>
+            <td>{{ location.state }}</td>
+            <td>{{ location.zip }}</td>
+            <td>{{ location.country }}</td>
+            <td>{{ location.active }}</td>
+            <td>{{ location.adCountryCode }}</td>
+            <td>{{ location.adCountryAbrv }}</td>
+        </ng-template>-->
+        </tr>
+
+    </tbody>
+</table>
+
+
+
+
+
