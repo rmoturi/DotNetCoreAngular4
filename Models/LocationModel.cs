@@ -8,13 +8,7 @@ namespace WebApplication1.Models
     public class Location
     {
         public string ERPEmployerID { get; set; }
-        //    get { return this.ERPEmployerID.Trim(); }
-        //    set { this.ERPEmployerID = value.Trim(); }
-        //}
         public string LocationID { get; set; }
-        //    get { return this.LocationID.Trim();  }
-        //    set { this.LocationID = value.Trim(); }
-        //}
         public string Name { get; set; }
         public string Address1 { get; set; }
         public string Address2 { get; set; }

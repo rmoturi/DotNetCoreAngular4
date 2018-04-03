@@ -16,6 +16,9 @@ export class LocationsComponent {
     private http: Http;
     private baseUrl: string;
 
+    first: number = 0;
+
+
     //Passsing the Http dependency to the constructor to access Http functions
     constructor(http: Http, @Inject('BASE_URL') baseUrl: string)
     {
@@ -58,6 +61,12 @@ export class LocationsComponent {
     deleteLocation(location: Location) {
         //return this.http.delete(this.baseUrl + 'api/Locations/', JSON.stringify(location));
     }
+
+    //paginator
+    reset() {
+        this.first = 0;
+    }
+
 }
 
 interface Location {

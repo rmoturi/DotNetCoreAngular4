@@ -1,8 +1,103 @@
-<h1>Locations</h1>
+<div class="page-header">
+    <h1>Locations</h1>
+</div>
 
 <p>Locations component fetches data from HRDW.</p>
 
 <p *ngIf="!locations"><em>Loading...</em></p>
+
+<p-table [value]="locations" [paginator]="true" [rows]="10" [first]="first">
+    <ng-template pTemplate="header">
+            <tr class="panel panel-primary">
+                <th>Actions</th>
+                <th>locationID</th>
+                <th>erpEmployerID</th>
+                <th>name</th>
+                <th>address1</th>
+                <th>address2</th>
+                <th>city</th>
+                <th>state</th>
+                <th>zip</th>
+                <th>country</th>
+                <th>active</th>
+                <th>adCountryCode</th>
+                <th>adCountryAbrv</th>
+            </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-location>
+            <tr class="row">
+                <td pEditableColumn>
+                    <p-cellEditor>
+                        <ng-template pTemplate="input">
+                            <button class="btn btn-xs btn-info">Save</button><button class="btn btn-xs btn-warning">Cancel</button>
+                        </ng-template>
+                        <ng-template pTemplate="output">
+                            <button class="btn btn-sm btn-primary">Edit</button>
+                        </ng-template>
+                    </p-cellEditor>
+                </td>
+                <td pEditableColumn>
+                    <p-cellEditor>
+                        <ng-template pTemplate="input">
+                            <input type="text" [(ngModel)]="location.locationID">
+                            <p-dropdown [options]="selfInfoLocations" [(ngModel)]="selectedLocation" optionLabel="locationID"></p-dropdown>
+                        </ng-template>
+                        <ng-template pTemplate="output">
+                            {{location.locationID}}
+                        </ng-template>
+                    </p-cellEditor>
+                </td>
+                <td pEditableColumn>
+                    <p-cellEditor>
+                        <ng-template pTemplate="input">
+                            <input type="text" [(ngModel)]="location.erpEmployerID">
+                            <p-dropdown [options]="selfInfoEmployers" [(ngModel)]="selectedEmployer" optionLabel="employerID"></p-dropdown>
+                        </ng-template>
+                        <ng-template pTemplate="output">
+                            {{location.erpEmployerID}}
+                        </ng-template>
+                    </p-cellEditor>
+                </td>
+                <td pEditableColumn>
+                    <p-cellEditor>
+                        <ng-template pTemplate="input">
+                            <input type="text" [(ngModel)]="location.name">
+                        </ng-template>
+                        <ng-template pTemplate="output">
+                            {{location.name}}
+                        </ng-template>
+                    </p-cellEditor>
+                </td>
+                <td>{{ location.address1 }}</td>
+                <td>{{ location.address2 }}</td>
+                <td>{{ location.city }}</td>
+                <td>{{ location.state }}</td>
+                <td>{{ location.zip }}</td>
+                <td>{{ location.country }}</td>
+                <td>{{ location.active }}</td>
+                <td>{{ location.adCountryCode }}</td>
+                <td>{{ location.adCountryAbrv }}</td>
+            </tr>
+    </ng-template>
+    <!--<ng-template pTemplate="emptymessage" let-columns>
+        <tr>
+            <td [attr.colspan]="columns.length">
+                No records found
+            </td>
+        </tr>
+    </ng-template>-->
+
+    <ng-template pTemplate="paginatorleft" let-state>
+        {{state.first}}
+        <button type="button" pButton icon="fa-refresh"></button>
+    </ng-template>
+    <ng-template pTemplate="paginatorright">
+        <button type="button" pButton icon="fa-cloud-upload"></button>
+    </ng-template>
+</p-table>
+
+
+
 
 <table class='table' *ngIf="locations">
     <thead>
@@ -39,7 +134,7 @@
             </td>
             <td *ngIf="editMode">
                 <select *ngIf="editMode" class="form-control" [(ngModel)]="location.locationID">
-                    <option *ngFor="let siLoc of selfInfoLocations" ngValue="{{siLoc.locationID}}">{{siLoc.locationID}} </option>
+                    <option *ngFor="let siLoc of selfInfoLocations">{{siLoc.locationID}} </option>
                 </select>
             </td>
             <td>{{ location.erpEmployerID }}</td>
@@ -56,31 +151,31 @@
 
 
             <!--<ng-template #editTempl let-i="index">
-            <td>
-                <button (click)="saveLocation(i)">Save</button>
-                <button (click)="reset()">Cancel</button>
-            </td>
-            <td>
-                <select class="form-control" [(ngModel)]="location.locationID">
-                    <option *ngFor="let siLoc of selfInfoLocations" ngValue="location.locationID">{{siLoc.locationID}} </option>
-                </select>
-            </td>
-            <td>
-                <select class="form-control" [(ngModel)]="location.erpEmployerID">
-                    <option *ngFor="let siEmp of selfInfoEmployers">{{siEmp.employerID}} </option>
-                </select>
-            </td>
-            <td>{{ location.name }}</td>
-            <td>{{ location.address1 }}</td>
-            <td>{{ location.address2 }}</td>
-            <td>{{ location.city }}</td>
-            <td>{{ location.state }}</td>
-            <td>{{ location.zip }}</td>
-            <td>{{ location.country }}</td>
-            <td>{{ location.active }}</td>
-            <td>{{ location.adCountryCode }}</td>
-            <td>{{ location.adCountryAbrv }}</td>
-        </ng-template>-->
+                <td>
+                    <button (click)="saveLocation(i)">Save</button>
+                    <button (click)="reset()">Cancel</button>
+                </td>
+                <td>
+                    <select class="form-control" [(ngModel)]="location.locationID">
+                        <option *ngFor="let siLoc of selfInfoLocations" ngValue="location.locationID">{{siLoc.locationID}} </option>
+                    </select>
+                </td>
+                <td>
+                    <select class="form-control" [(ngModel)]="location.erpEmployerID">
+                        <option *ngFor="let siEmp of selfInfoEmployers">{{siEmp.employerID}} </option>
+                    </select>
+                </td>
+                <td>{{ location.name }}</td>
+                <td>{{ location.address1 }}</td>
+                <td>{{ location.address2 }}</td>
+                <td>{{ location.city }}</td>
+                <td>{{ location.state }}</td>
+                <td>{{ location.zip }}</td>
+                <td>{{ location.country }}</td>
+                <td>{{ location.active }}</td>
+                <td>{{ location.adCountryCode }}</td>
+                <td>{{ location.adCountryAbrv }}</td>
+            </ng-template>-->
         </tr>
 
     </tbody>

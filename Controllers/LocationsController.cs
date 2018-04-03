@@ -27,17 +27,33 @@ namespace WebApplication1.Controllers
         [HttpGet]
         public IEnumerable<Location> Get()
         {
-            //return new string[] { "value1", "value2" };
-            //Location locationModel1 = new Location { LocationID = "location 1" };
-            //Location locationModel2 = new Location { LocationID = "location 2" };
+			//return new string[] { "value1", "value2" };
+			//Location locationModel1 = new Location { LocationID = "location 1" };
+			//Location locationModel2 = new Location { LocationID = "location 2" };
 
-            //List<Location> LocationsList = new List<Location>();
-            //LocationsList.Add(locationModel1);
-            //LocationsList.Add(locationModel2);
+			//List<Location> LocationsList = new List<Location>();
+			//LocationsList.Add(locationModel1);
+			//LocationsList.Add(locationModel2);
 
-            //return LocationsList.AsEnumerable();
+			//return LocationsList.AsEnumerable();
 
-            return _dbContext.HRDW_Locations.ToList();
+			IQueryable<Location> locations = _dbContext.HRDW_Locations.Select(
+					l => new Location
+					{
+						LocationID = l.LocationID.Trim(),
+						ERPEmployerID = l.ERPEmployerID.Trim(),
+						Name = l.Name.Trim(),
+						Address1 = l.Address1,
+						Address2 = l.Address2,
+						City = l.City,
+						State = l.State,
+						ZIP = l.ZIP,
+						Country = l.Country,
+						Active = l.Active,
+						ADCountryAbrv = l.ADCountryAbrv,
+						ADCountryCode = l.ADCountryCode
+					});
+			return locations.ToList();
 
             //try
             //{
@@ -67,9 +83,34 @@ namespace WebApplication1.Controllers
         
         // PUT: api/Locations/5
         [HttpPut("{id}")]
-        public void Put(int id, [FromBody]string value)
+        public bool Put(string id, [FromBody]Location location)
         {
-        }
+			location.LocationID = id;
+			if (location == null)
+			{
+				throw new ArgumentNullException("location");
+			}
+
+			using (_dbContext)
+			{
+				var currLocation = _dbContext.HRDW_Locations.Single(l => l.LocationID == location.LocationID);
+
+				if (currLocation != null)
+				{
+					currLocation.LocationID = location.LocationID;
+					currLocation.ERPEmployerID = location.ERPEmployerID;
+
+					int rowsAffected = _dbContext.SaveChanges();
+
+					return rowsAffected > 0 ? true : false;
+				}
+				else
+				{
+					return false;
+				}
+
+			}
+		}
         
         // DELETE: api/ApiWithActions/5
         [HttpDelete("{id}")]

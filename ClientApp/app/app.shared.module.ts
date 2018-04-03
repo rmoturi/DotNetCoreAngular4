@@ -4,6 +4,13 @@ import { FormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
 import { RouterModule } from '@angular/router';
 
+import { BrowserModule } from '@angular/platform-browser';
+//import { BrowserAnimationModule } from '@angular/platform-browser/animations';
+//import { FontAwesomeModule } from 'font-awesome';
+import { TableModule } from 'primeng/table';
+import { DropdownModule } from 'primeng/dropdown';
+
+
 import { AppComponent } from './components/app/app.component';
 import { NavMenuComponent } from './components/navmenu/navmenu.component';
 import { HomeComponent } from './components/home/home.component';
@@ -25,6 +32,8 @@ import { LocationsComponent } from './components/locations/locations.component';
         CommonModule,
         HttpModule,
         FormsModule,
+        BrowserModule, //BrowserAnimationModule, FontAwesomeModule,
+        TableModule, DropdownModule, // PrimeNGModules
         RouterModule.forRoot([
             { path: '', redirectTo: 'home', pathMatch: 'full' },
             { path: 'home', component: HomeComponent },

@@ -23,10 +23,18 @@ namespace WebApplication1.Controllers
         [HttpGet]
         public IEnumerable<EmployeeSelfInfo> Get(string col)
         {
-            //if(col == "Locations")
-                return _dbContext.HRDW_Employee_SelfInfo.Select(item => new EmployeeSelfInfo { LocationID = item.LocationID.Replace("<","").Replace(">","") }).Distinct().ToList();
-            //return _dbContext.HRDW_Employee_SelfInfo.Select(item => new EmployeeSelfInfo { EmployerID = item.EmployerID.Replace("<", "").Replace(">", "") }).Distinct().ToList();
-        }
+			IQueryable<EmployeeSelfInfo> employeeSelfInfos = _dbContext.HRDW_Employee_SelfInfo.Select(
+				si => new EmployeeSelfInfo {
+					//UniversalGUID = si.UniversalGUID,
+					//EmployerID = si.EmployerID.Trim(),
+					LocationID = si.LocationID.Trim()
+				}).Distinct();
+
+			return employeeSelfInfos.ToList();
+			//if(col == "Locations")
+			//return _dbContext.HRDW_Employee_SelfInfo.Select(item => new EmployeeSelfInfo { LocationID = item.LocationID.Replace("<","").Replace(">","") }).Distinct().ToList();
+			//return _dbContext.HRDW_Employee_SelfInfo.Select(item => new EmployeeSelfInfo { EmployerID = item.EmployerID.Replace("<", "").Replace(">", "") }).Distinct().ToList();
+		}
 
     }
 }
